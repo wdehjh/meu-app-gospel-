@@ -1,0 +1,62 @@
+# --- INTERFACE PROFISSIONAL COM CANÇÃO E INSTRUMENTOS ---
+!pip install -q gradio
+
+import gradio as gr
+
+# 1. Definindo o Tema Dourado e Escuro
+tema_superacao = gr.themes.Soft(primary_hue="amber", neutral_hue="slate")
+
+# 2. A Lógica Mestre (Agora com Letra de Canção e Instrumentos)
+def manifestar_total(animal, sentimento, versiculo):
+    # Prompt de Vídeo
+    prompt_video = f"{animal} interacting with environment, 8k, macro droplets, cinematic lighting, realistic movement."
+
+    # Fábula Narrada
+    fabula = f"Nas paisagens da alma, o {animal} caminha sob a luz de '{versiculo}'. [breath] A tempestade ruge, mas a paz prevalece. [pause]"
+
+    # Letra da Canção e Roteiro de Áudio
+    roteiro_audio = (
+        f"🎵 [ESTILO MUSICAL: Piano Melancólico e Violoncelo Profundo]\n\n"
+        f"[SFX: Som de chuva forte e trovões distantes]\n"
+        f"[SFX: Respiração pesada do {animal}]\n\n"
+        f"🎙️ [NARRAÇÃO EMOCIONAL]:\n"
+        f"'{fabula}'\n\n"
+        f"🎸 [LETRA DA CANÇÃO - ENTRADA DOS INSTRUMENTOS]:\n"
+        f"(Verso 1 - Suave)\n"
+        f"Na força do teu olhar, encontrei o meu lugar...\n"
+        f"O {sentimento} é o escudo, no meio do rugido mudo...\n\n"
+        f"[SFX: RUGIDO PODEROSO DO {animal} COM ECO]\n\n"
+        f"(Refrão - Crescendo Musical)\n"
+        f"Não temerei, pois Tu estás aqui,\n"
+        f"A paz que eu sinto, eu nunca vi...\n\n"
+        f"[Outro: Pássaros cantando e violino suave sumindo no horizonte]"
+    )
+
+    # Salva na nuvem (Google Drive)
+    salvar_na_nuvem(animal, sentimento, fabula, prompt_video, roteiro_audio)
+
+    return fabula, prompt_video, roteiro_audio
+
+# 3. Criando a Interface do App
+with gr.Blocks(theme=tema_superacao, title="Manifestador de Sabedoria") as app_real:
+    gr.Markdown("# 🌟 Manifestador de Sabedoria\n### Criando obras eternas com a força da fé.")
+
+    with gr.Group():
+        with gr.Row():
+            in_animal = gr.Textbox(label="🦁 Animal", placeholder="Ex: Leão")
+            in_sentimento = gr.Textbox(label="🙏 Sentimento", placeholder="Ex: Salmo 23")
+        in_versiculo = gr.Textbox(label="📖 Versículo/Inspiração")
+        btn_gerar = gr.Button("✨ MANIFESTAR AGORA", variant="primary")
+
+    with gr.Tabs():
+        with gr.TabItem("📖 Fábula"):
+            out_fabula = gr.Textbox(label="Texto da Narração", lines=5)
+        with gr.TabItem("🎬 Vídeo 8K"):
+            out_prompt = gr.Textbox(label="Prompt para Gerador de Vídeo", lines=5)
+        with gr.TabItem("🎵 Canção e Áudio"):
+            out_audio = gr.Textbox(label="Roteiro Musical e Letra", lines=10)
+
+    btn_gerar.click(fn=manifestar_total, inputs=[in_animal, in_sentimento, in_versiculo],
+                    outputs=[out_fabula, out_prompt, out_audio])
+
+app_real.launch(share=True)
